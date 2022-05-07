@@ -15,13 +15,15 @@ const methodOverride = require('method-override');
 
 const app = express();
 
+var Rol;
+let gfs;
+
 if (process.env.NODE_ENV !== 'production') {
   const dotenv = require('dotenv');
   dotenv.config();
 }
 
 app.set('view engine', 'ejs');
-
 app.use(methodOverride('_method'));
 
 app.use(session({
@@ -96,10 +98,9 @@ passport.use(new GoogleStrategy({
     callbackURL: "http://localhost:3000/auth/google/home"
   },
   function(accessToken, refreshToken, profile, done) {
-    // User.findOrCreate({ googleId: profile.id }, function (err, user) {
-    //   return cb(err, user);
-    // });
+
     User.findOne({email: profile.emails[0].value}, function(err, user) {
+        console.log(user);
         temp.role=user.role;
         temp.name=user.name;
         temp.email=user.email;
@@ -132,16 +133,10 @@ app.get("/home",function(req,res){
   });
 
 app.get("/super",async(req,res)=>{
-    if(temp.role==="superuser")
+    if(temp.role==="super")
     {
         const found_teacher = await User.find({});
-        const found_discuss = await Discuss.find({});
-        const found_test = await Test.find({});
-        const found_councell = await Councell.find({});
-
-        res.render("super",{currentUser:temp,clientType:temp.role,teachers:found_teacher,students:found_teacher,pastcounsells:found_councell,
-          scheduledcounsells:found_councell,pasttests:found_test,scheduledtests:found_test,pastdiscussions:found_discuss,scheduleddiscussions:found_discuss,
-          moment:moment});
+        res.render("super",{currentUser:temp,clientType:temp.role,teachers:found_teacher,students:found_teacher});
     }
     else res.redirect("/");
   });

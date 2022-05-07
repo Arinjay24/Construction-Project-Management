@@ -17,6 +17,7 @@ nav{
     height: fit-content;
 }
 .mainBg{
+    object-fit: cover;
     position: relative;
     width: 100%;
     top: -150px;
