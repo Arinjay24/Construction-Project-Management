@@ -6,12 +6,12 @@
 
 
 <div class="container mb-5 mt-5 allDetails">
-  <h4 class="theme-heading text-center mb-5">Details of Staff and Students</h4>
+  <h4 class="theme-heading text-center mb-5">Details of Admin and Workers</h4>
   <div class="scheduled">
     <a class="waves-effect waves-light btn modal-trigger btn-primary btn m-3" href="#allTeachers">All Teachers</a>
     <div id="allTeachers" class="modal">
       <div class="modal-footer">
-        <h4 class="theme-heading text-center" style="margin: auto;" >All Teachers</h4>
+        <h4 class="theme-heading text-center" style="margin: auto;" >All Admins</h4>
         <a href="#!" class="modal-close waves-effect waves-green btn-flat"><i class="fas fa-times red-text"></i></a>
       </div>
       <div class="modal-content">
@@ -20,7 +20,7 @@
           <div class="scheduled mb-3">
             <p style="width: 45%;"><b>Name:</b><%=x.name%></p>
             <p style="width: 45%;"><b>Email:</b><%=x.email%></p>
-            <b><a class="red-text" href="/superuser/teacher/remove/<%=x.id%>">Remove</a></b>
+            <b><a class="red-text" href="/superuser/admin/remove/<%=x.id%>">Remove</a></b>
           </div>
            <% } %>
        <%})%>
@@ -29,7 +29,7 @@
     <a class="waves-effect waves-light btn modal-trigger btn-primary btn m-3" href="#allStudents">All Students</a>
     <div id="allStudents" class="modal">
       <div class="modal-footer">
-        <h4 class="theme-heading text-center" style="margin: auto;" >All Students</h4>
+        <h4 class="theme-heading text-center" style="margin: auto;" >All Workers</h4>
         <a href="#!" class="modal-close waves-effect waves-green btn-flat"><i class="fas fa-times red-text"></i></a>
       </div>
       <div class="modal-content">
@@ -38,7 +38,7 @@
           <div class="scheduled mb-3">
             <p style="width: 45%;"><b>Name:</b><%=x.name%></p>
             <p style="width: 45%;"><b>Email:</b><%=x.email%></p>
-            <b><a class="red-text" href="/superuser/student/remove/<%=x.id%>">Remove</a></b>
+            <b><a class="red-text" href="/superuser/worker/remove/<%=x.id%>">Remove</a></b>
           </div>
            <% } %>
        <%})%>
@@ -59,14 +59,14 @@
         <div class="col s12 m6">
           <div class="card" style="background-color: #3b3838 !important;">
             <div class="card-content white-text">
-              <h2>Add Teachers</h2>
+              <h2>Add Admin</h2>
               <div
                 class="frm-icn"
                 style="background-color: #3b3838 !important;"
               >
                 <i class="fas fa-chalkboard-teacher"></i>
               </div>
-              <form action="/superuser/teacher/add" method="POST">
+              <form action="/superuser/admin/add" method="POST">
                 <div class="form-group white-text">
                   <div class="input-field col s6">
                     <input
@@ -122,11 +122,11 @@
         <div class="col s12 m6">
           <div class="card" style="background-color: #3b6978 !important;">
             <div class="card-content white-text">
-              <h2>Add Students</h2>
+              <h2>Add Workers</h2>
               <div class="frm-icn" style="background-color: #3b6978;">
                 <i class="fas fa-user-graduate"></i>
               </div>
-              <form action="/superuser/student/add" method="POST">
+              <form action="/superuser/worker/add" method="POST">
                 <div class="form-group white-text">
                   <div class="input-field col s6">
                     <input
@@ -199,7 +199,7 @@
                 <div>
 
 
-              
+
                 </div>
           </div>
         </div>

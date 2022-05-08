@@ -100,7 +100,7 @@ passport.use(new GoogleStrategy({
   function(accessToken, refreshToken, profile, done) {
 
     User.findOne({email: profile.emails[0].value}, function(err, user) {
-        console.log(user);
+        // console.log(user);
         temp.role=user.role;
         temp.name=user.name;
         temp.email=user.email;
@@ -141,10 +141,61 @@ app.get("/super",async(req,res)=>{
     else res.redirect("/");
   });
 
+  app.get("/superuser/worker/remove/:id",function(req,res){
+
+    User.deleteOne({ _id: req.params.id }).then(result => {
+    console.log(result);
+    });
+    res.redirect("/super");
+  });
+
+  app.get("/superuser/admin/remove/:id",function(req,res){
+
+    User.deleteOne({ _id: req.params.id }).then(result => {
+    console.log(result);
+    });
+    res.redirect("/super");
+  });
+
+
   app.get('/auth/logout', function (req, res) {
     req.logout();
     res.redirect("/");
   });
+
+
+  app.post("/superuser/admin/add",function(req,res){
+
+ //console.log(req.body);
+  var teacher_name=req.body.main.name;
+  var teacher_email=req.body.main.email;
+
+  const user=new User({
+    name:teacher_name,
+    email:teacher_email,
+    role:"admin"
+  });
+
+  user.save();
+  res.redirect("/super");
+
+});
+
+app.post("/superuser/worker/add",function(req,res){
+
+// console.log(req.body);
+  var teacher_name=req.body.mains.name;
+  var teacher_email=req.body.mains.email;
+
+  const user=new User({
+    name:teacher_name,
+    email:teacher_email,
+    role:"worker"
+  });
+
+  user.save();
+  res.redirect("/super");
+});
 
 app.listen(3000, function() {
   console.log("Server started on port 3000");
