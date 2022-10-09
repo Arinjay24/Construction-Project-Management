@@ -48,7 +48,14 @@ input:focus {
   transform: translateX(-50%);
 }
 .svg-T{
-  min-height: fit-content;
+  position: relative;
+  width: 100%;
+  columns: 100px 2;
+  height: 90vmin;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 #blueBalls path:nth-child(1) {
   animation: fadeballs 1.5s linear alternate infinite;

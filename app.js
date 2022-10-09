@@ -142,8 +142,17 @@ app.get("/home",function(req,res){
 app.get("/super",async(req,res)=>{
     if(temp.role==="super")
     {
-        const found_teacher = await User.find({});
-        res.render("super",{currentUser:temp,clientType:temp.role,admins:found_teacher,workers:found_teacher});
+        const found_user = await User.find({});
+        res.render("super",{currentUser:temp,clientType:temp.role,admins:found_user,workers:found_user});
+    }
+    else res.redirect("/");
+  });
+
+  app.get("/admin",async(req,res)=>{
+    if(temp.role==="admin")
+    {
+        const found_user = await User.find({});
+        res.render("admin",{currentUser:temp,clientType:temp.role,admins:found_user,workers:found_user});
     }
     else res.redirect("/");
   });
