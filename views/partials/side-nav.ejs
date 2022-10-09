@@ -73,11 +73,11 @@
       </div>
       <div class="search-container">
         <i class="fas fa-search white-text"></i>
-        <% if(clientType === 'student'){ %>
+        <% if(clientType === 'worker'){ %>
         <form action="/student/profile/friend" method="GET">
           <input type="email" placeholder="Search Friend" name="email" />
         </form>
-        <% } else if(clientType === 'teacher') { %>
+        <% } else if(clientType === 'admin') { %>
         <form action="/teacher/profile" method="GET">
           <input type="email" name="email" placeholder="Search student" />
         </form>
@@ -96,9 +96,9 @@
         <i class="material-icons" style="font-size: 40px">account_circle</i>
         <h5><%=currentUser.name%></h5>
       </center>
-      <% if( clientType === 'teacher') { %>
+      <% if( clientType === 'admin') { %>
       <div id="teacher-nav"></div>
-      <% } else if (clientType === 'student'){ %>
+      <% } else if (clientType === 'worker'){ %>
       <div id="student-nav"></div>
 
       <% } else{ %>
@@ -114,9 +114,9 @@
           <i class="material-icons" style="font-size: 40px">account_circle</i>
           <h5><%=currentUser.name%></h5>
         </center>
-        <% if( clientType === 'teacher') { %>
+        <% if( clientType === 'admin') { %>
         <div id="teacher-nav"></div>
-        <% } else if (clientType === 'student'){ %>
+        <% } else if (clientType === 'worker'){ %>
         <div id="student-nav"></div>
 
         <% } else{ %>
@@ -156,50 +156,50 @@
         console.log(zxx);
       }
       };
-      function discussion() {
-        var x = document.querySelectorAll('section');
-        for (i = 0; i < x.length; i++) {
-          if (x[i].className == 'discussion') x[i].style.display = 'block';
-          else x[i].style.display = 'none';
-        }
-        if (zxx !== 0) {
-          mobNavHam();
-        }
-        try {
-          document.querySelector('.allDetails').style.display = 'none';
-        } catch (error) {
+      // function discussion() {
+      //   var x = document.querySelectorAll('section');
+      //   for (i = 0; i < x.length; i++) {
+      //     if (x[i].className == 'discussion') x[i].style.display = 'block';
+      //     else x[i].style.display = 'none';
+      //   }
+      //   if (zxx !== 0) {
+      //     mobNavHam();
+      //   }
+      //   try {
+      //     document.querySelector('.allDetails').style.display = 'none';
+      //   } catch (error) {
 
-        }
-      }
-      function counselling() {
-        var x = document.querySelectorAll('section');
-        for (i = 0; i < x.length; i++) {
-          if (x[i].className == 'counselling') x[i].style.display = 'block';
-          else x[i].style.display = 'none';
-        }
-        if (zxx !== 0) {
-          mobNavHam();
-        }try {
-          document.querySelector('.allDetails').style.display = 'none';
-        } catch (error) {
+      //   }
+      // }
+      // function counselling() {
+      //   var x = document.querySelectorAll('section');
+      //   for (i = 0; i < x.length; i++) {
+      //     if (x[i].className == 'counselling') x[i].style.display = 'block';
+      //     else x[i].style.display = 'none';
+      //   }
+      //   if (zxx !== 0) {
+      //     mobNavHam();
+      //   }try {
+      //     document.querySelector('.allDetails').style.display = 'none';
+      //   } catch (error) {
 
-        }
-      }
-      function test() {
-        var x = document.querySelectorAll('section');
-        for (i = 0; i < x.length; i++) {
-          if (x[i].className == 'test') x[i].style.display = 'block';
-          else x[i].style.display = 'none';
-        }
-        if (zxx !== 0) {
-          mobNavHam();
-        }
-        try {
-          document.querySelector('.allDetails').style.display = 'none';
-        } catch (error) {
+      //   }
+      // }
+      // function test() {
+      //   var x = document.querySelectorAll('section');
+      //   for (i = 0; i < x.length; i++) {
+      //     if (x[i].className == 'test') x[i].style.display = 'block';
+      //     else x[i].style.display = 'none';
+      //   }
+      //   if (zxx !== 0) {
+      //     mobNavHam();
+      //   }
+      //   try {
+      //     document.querySelector('.allDetails').style.display = 'none';
+      //   } catch (error) {
 
-        }
-      }
+      //   }
+      // }
       function addTeacher() {
         var x = document.querySelectorAll('section');
         for (i = 0; i < x.length; i++) {

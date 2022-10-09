@@ -89,6 +89,13 @@ var temp=new User({
 app.get("/", function(req, res){
   currentUser=null;
   clientType=null;
+/*  const user=new User({
+    name:"Arinjay Shukla",
+    email:"baba1938baba@gmail.com",
+    role:"super"
+  });
+  console.log(currentUser);
+  user.save();*/
   res.render("home",{currentUser:currentUser,clientType:clientType});
 });
 
@@ -100,7 +107,7 @@ passport.use(new GoogleStrategy({
   function(accessToken, refreshToken, profile, done) {
 
     User.findOne({email: profile.emails[0].value}, function(err, user) {
-        // console.log(user);
+        console.log(user);
         temp.role=user.role;
         temp.name=user.name;
         temp.email=user.email;
@@ -136,7 +143,7 @@ app.get("/super",async(req,res)=>{
     if(temp.role==="super")
     {
         const found_teacher = await User.find({});
-        res.render("super",{currentUser:temp,clientType:temp.role,teachers:found_teacher,students:found_teacher});
+        res.render("super",{currentUser:temp,clientType:temp.role,admins:found_teacher,workers:found_teacher});
     }
     else res.redirect("/");
   });
@@ -159,7 +166,7 @@ app.get("/super",async(req,res)=>{
 
 
   app.get('/auth/logout', function (req, res) {
-    req.logout();
+   // req.logout();
     res.redirect("/");
   });
 
