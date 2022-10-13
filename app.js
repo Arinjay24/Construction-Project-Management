@@ -168,7 +168,7 @@ app.get("/super",async(req,res)=>{
     User.deleteOne({ _id: req.params.id }).then(result => {
     console.log(result);
     });
-    res.redirect("/super");
+    res.redirect("/admin");
   });
 
   app.get("/superuser/admin/remove/:id",function(req,res){
@@ -216,7 +216,7 @@ app.post("/superuser/worker/add",function(req,res){
   });
 
   user.save();
-  res.redirect("/super");
+  res.redirect("/admin");
 });
 
 app.listen(3000, function() {
