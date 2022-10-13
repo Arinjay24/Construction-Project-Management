@@ -157,6 +157,12 @@ app.get("/super",async(req,res)=>{
     else res.redirect("/");
   });
 
+  app.get("/graphs",async(req,res)=>{
+    const found_user = await User.find({});
+    res.render("graphs",{worker:found_user,clientType:temp.role,currentUser:temp});
+   // res.redirect('/');
+  });
+
   app.get("/superuser/worker/remove/:id",function(req,res){
 
     User.deleteOne({ _id: req.params.id }).then(result => {

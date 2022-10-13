@@ -66,8 +66,15 @@
     <input type="checkbox" id="check" />
     <header class="side-nav-header">
       <div class="white-text s-n-logo">
-        <div>Super</div>
-        <label for="check">
+        <% if(clientType === 'worker'){ %>
+        <div>Worker</div>
+        <% } else if(clientType === 'admin') { %>
+          <div>Admin</div>
+          <% } else {%>
+            <div>Super</div>
+            <%}%>
+        <label for="check"
+        >
           <span class="material-icons" id="sidebar_btn"> menu </span>
         </label>
       </div>

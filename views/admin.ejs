@@ -173,13 +173,14 @@
   const navLinks = `<a id="dshbrd" href="#" onclick="dashboard()"
         ><i class="fas fa-desktop"></i><span>Dashboard</span></a
       >
-      <a href="#" onclick="discussion()"
-        ><i class="fas fa-th"></i><span>Data Analysis</span></a
+      <a class="hme" href="#" onclick="discussion()"
+        ><i class="fas fa-th" href="#"></i><span>Data Analysis</span></a
       >
-      <a class="hme" href="#"><i class="fas fa-info-circle"></i><span>Home</span></a>
+      <a class="homie" href="#" ><i class="fas fa-info-circle"></i><span>Home</span></a>
       <a href="#"><i class="fas fa-sliders-h"></i><span>Settings</span></a>`;
     teacherNav.innerHTML = navLinks;});
-  document.querySelectorAll('.hme').forEach(link => link.href = location.hostname);
+  document.querySelectorAll('.hme').forEach(link => link.href = "/graphs");
+  document.querySelectorAll('.homie').forEach(link => link.href = "/admin");
     function showTime(){
       var i = 0;
     document.querySelectorAll("#dd p").forEach(d => {
