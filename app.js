@@ -158,9 +158,9 @@ app.get("/super",async(req,res)=>{
   });
 
   app.get("/graphs",async(req,res)=>{
-    const found_user = await User.find({});
+    const email = req.query.email ? req.query.email : "baba1938baba@gmail.com";
+    const found_user = await User.find({email:email});
     res.render("graphs",{worker:found_user,clientType:temp.role,currentUser:temp});
-   // res.redirect('/');
   });
 
   app.get("/superuser/worker/remove/:id",function(req,res){
