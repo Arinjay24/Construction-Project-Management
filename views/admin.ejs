@@ -10,44 +10,56 @@
 
     <div class="content">
       <h4 class="theme-heading text-center mb-5">Details of Admin and Workers</h4>
-      <div class="scheduled">
-      <a class="waves-effect waves-light btn modal-trigger btn-primary btn m-3" href="#allTeachers">All Admins</a>
-    <div id="allTeachers" class="modal">
-      <div class="modal-footer">
-        <h4 class="theme-heading text-center" style="margin: auto;" >All Admins</h4>
-        <a href="#!" class="modal-close waves-effect waves-green btn-flat"><i class="fas fa-times red-text"></i></a>
-      </div>
-      <div class="modal-content">
-        <%admins.forEach((x)=>{%>
-          <% if(x.role=="admin"){ %>
-          <div class="scheduled mb-3">
-            <p style="width: 45%;"><b>Name:</b><%=x.name%></p>
-            <p style="width: 45%;"><b>Email:</b><%=x.email%></p>
+      <div class="container">
+        <div class="scheduled container">
+          <a class="waves-effect waves-light btn modal-trigger btn-primary btn m-3" href="#allTeachers">All Admins</a>
+          <div id="allTeachers" class="modal">
+            <div class="modal-footer">
+              <h4 class="theme-heading text-center" style="margin: auto;">All Admins</h4>
+              <a href="#!" class="modal-close waves-effect waves-green btn-flat"><i
+                  class="fas fa-times red-text"></i></a>
+            </div>
+            <div class="modal-content">
+              <%admins.forEach((x)=>{%>
+                <% if(x.role=="admin" ){ %>
+                  <div class="scheduled mb-3">
+                    <p style="width: 45%;"><b>Name:</b>
+                      <%=x.name%>
+                    </p>
+                    <p style="width: 45%;"><b>Email:</b>
+                      <%=x.email%>
+                    </p>
+                  </div>
+                  <% } %>
+                    <%})%>
+            </div>
           </div>
-           <% } %>
-       <%})%>
-      </div>
-    </div>
-      <a class="waves-effect waves-light btn modal-trigger btn-primary btn m-3" href="#allStudents">All Workers</a>
-    <div id="allStudents" class="modal">
-      <div class="modal-footer">
-        <h4 class="theme-heading text-center" style="margin: auto;" >All Workers</h4>
-        <a href="#!" class="modal-close waves-effect waves-green btn-flat"><i class="fas fa-times red-text"></i></a>
-      </div>
-      <div class="modal-content">
-        <%workers.forEach((x)=>{%>
-            <% if(x.role=="worker"){ %>
-          <div class="scheduled mb-3">
-            <p style="width: 45%;"><b>Name:</b><%=x.name%></p>
-            <p style="width: 45%;"><b>Email:</b><%=x.email%></p>
-            <b><a class="red-text" href="/superuser/worker/remove/<%=x.id%>">Remove</a></b>
+          <a class="waves-effect waves-light btn modal-trigger btn-primary btn m-3" href="#allStudents">All Workers</a>
+          <div id="allStudents" class="modal">
+            <div class="modal-footer">
+              <h4 class="theme-heading text-center" style="margin: auto;">All Workers</h4>
+              <a href="#!" class="modal-close waves-effect waves-green btn-flat"><i
+                  class="fas fa-times red-text"></i></a>
+            </div>
+            <div class="modal-content">
+              <%workers.forEach((x)=>{%>
+                <% if(x.role=="worker" ){ %>
+                  <div class="scheduled mb-3">
+                    <p style="width: 45%;"><b>Name:</b>
+                      <%=x.name%>
+                    </p>
+                    <p style="width: 45%;"><b>Email:</b>
+                      <%=x.email%>
+                    </p>
+                    <b><a class="red-text" href="/superuser/worker/remove/<%=x.id%>">Remove</a></b>
+                  </div>
+                  <% } %>
+                    <%})%>
+            </div>
           </div>
-           <% } %>
-       <%})%>
+        </div>
+        <div class="seperator mt-5 "></div>
       </div>
-    </div>
-    </div>
-      <div class="seperator mt-5 "></div>
       <section class="discussion">
         <div class="card-container" id="aT">
           <div class="each-card text-center">
@@ -134,7 +146,7 @@
     <section class="dashboard">
       <div class="svg-T">
         <!-- <img src="images/pic3.jpg" alt=""> -->
-        <img src="images/pic4.jpg" alt="">
+        <img src="images/pp.jpg" alt="">
       </div>
 
   </div>
