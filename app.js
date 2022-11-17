@@ -1,23 +1,40 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const mongoose=require("mongoose");
-const ejs=require("ejs");
-const passport=require("passport");
-const session=require("express-session");
+const mongoose = require("mongoose");
+const ejs = require("ejs");
+const passport = require("passport");
+const session = require("express-session");
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const moment=require("moment");
+const moment = require("moment");
 const nodemailer = require('nodemailer');
 const GridFsStorage = require('multer-gridfs-storage');
 const Grid = require('gridfs-stream');
 const crypto = require('crypto');
 const methodOverride = require('method-override');
-const URL="https://api.thingspeak.com/channels/1711681/feeds.json?api_key=MF7F4IDHXNG5FSHS&results=2";
-const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
+var serialport = require('serialport');
+var SerialPort = serialport.SerialPort;
+const { ReadlineParser } = require('@serialport/parser-readline')
+const URL = "https://api.thingspeak.com/channels/1711681/feeds.json?api_key=MF7F4IDHXNG5FSHS&results=2";
+const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 const json = (...args) => import('json');
 const app = express();
 
 var Rol;
 let gfs;
+
+// SERIAL MONITOR CODE
+
+const port = new SerialPort({ path: 'COM4', baudRate: 9600 }, function (err) {
+  if (err) {
+    return console.log('Error: ', err.message)
+  }
+});
+const parser = port. pipe(new ReadlineParser({ delimiter: '\r\n' }));
+parser.on('data', console.log)
+
+
+
+
 
 if (process.env.NODE_ENV !== 'production') {
   const dotenv = require('dotenv');
@@ -36,30 +53,30 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 
 const transporter = nodemailer.createTransport({
-service: 'Gmail',
-host: 'smtp.gmail.com',
-    port: 465,
-auth: {
+  service: 'Gmail',
+  host: 'smtp.gmail.com',
+  port: 465,
+  auth: {
     user: "ashukla1_be19@thapar.edu",
     pass: 'Severus_24@',
-},
-secure: true
+  },
+  secure: true
 });
 
 
-mongoose.connect("mongodb://localhost:27017/ConstructionDB", {useNewUrlParser: true});
+mongoose.connect("mongodb://localhost:27017/ConstructionDB", { useNewUrlParser: true });
 
-passport.serializeUser(function(user, done) {
+passport.serializeUser(function (user, done) {
   done(null, user.id);
 });
 
-passport.deserializeUser(function(id, done) {
-  User.findById(id, function(err, user) {
+passport.deserializeUser(function (id, done) {
+  User.findById(id, function (err, user) {
     done(err, user);
   });
 });
@@ -67,139 +84,135 @@ passport.deserializeUser(function(id, done) {
 const UserSchema = new mongoose.Schema({
   name: {
     type: String,
-    required:true
+    required: true
   },
   email: {
     type: String,
-    required:true
+    required: true
   },
-  role:{
-    type:String,
-    required:true
+  role: {
+    type: String,
+    required: true
   },
 });
 
-const User=mongoose.model("User",UserSchema);
+const User = mongoose.model("User", UserSchema);
 
-var temp=new User({
-  name:"",
-  email:"",
-  role:""
+var temp = new User({
+  name: "",
+  email: "",
+  role: ""
 });
 
-app.get("/", function(req, res){
-  currentUser=null;
-  clientType=null;
-/*  const user=new User({
-    name:"Arinjay Shukla",
-    email:"baba1938baba@gmail.com",
-    role:"super"
-  });
-  console.log(currentUser);
-  user.save();*/
-  res.render("home",{currentUser:currentUser,clientType:clientType});
+app.get("/", function (req, res) {
+  currentUser = null;
+  clientType = null;
+  /*  const user=new User({
+      name:"Arinjay Shukla",
+      email:"baba1938baba@gmail.com",
+      role:"super"
+    });
+    console.log(currentUser);
+    user.save();*/
+  res.render("home", { currentUser: currentUser, clientType: clientType });
 });
 
 passport.use(new GoogleStrategy({
-    clientID:process.env.CLIENT_ID ,
-    clientSecret: process.env.CLIENT_SECRET,
-    callbackURL: "http://localhost:3000/auth/google/home"
-  },
-  function(accessToken, refreshToken, profile, done) {
+  clientID: process.env.CLIENT_ID,
+  clientSecret: process.env.CLIENT_SECRET,
+  callbackURL: "http://localhost:3000/auth/google/home"
+},
+  function (accessToken, refreshToken, profile, done) {
 
-    User.findOne({email: profile.emails[0].value}, function(err, user) {
-        console.log(user);
-        temp.role=user.role;
-        temp.name=user.name;
-        temp.email=user.email;
-        return done(err, user);
-     });
+    User.findOne({ email: profile.emails[0].value }, function (err, user) {
+      console.log(user);
+      temp.role = user.role;
+      temp.name = user.name;
+      temp.email = user.email;
+      return done(err, user);
+    });
   }
 ));
 
 app.get('/auth/google',
-  passport.authenticate('google', { scope: ['profile','email'] }));
+  passport.authenticate('google', { scope: ['profile', 'email'] }));
 
 app.get('/auth/google/home',
-  passport.authenticate('google', { failureRedirect: '/auth/google'}),
-  function(req, res) {
+  passport.authenticate('google', { failureRedirect: '/auth/google' }),
+  function (req, res) {
     // Successful authentication, redirect home.
-     res.redirect("/home");
+    res.redirect("/home");
   });
 
-app.get("/home",function(req,res){
-    if(temp.role==="worker")
-    {
-      res.redirect("/worker");
-    }
-    else if(temp.role==="admin")
-    {
-      res.redirect("/admin");
-    }
-    else
-    res.redirect('/super');
-  });
-
-app.get("/super",async(req,res)=>{
-    if(temp.role==="super")
-    {
-        const found_user = await User.find({});
-        res.render("super",{currentUser:temp,clientType:temp.role,admins:found_user,workers:found_user});
-    }
-    else res.redirect("/");
-  });
-
-  app.get("/admin",async(req,res)=>{
-    if(temp.role==="admin")
-    {
-        const found_user = await User.find({});
-        res.render("admin",{currentUser:temp,clientType:temp.role,admins:found_user,workers:found_user});
-    }
-    else res.redirect("/");
-  });
-
-  app.get("/graphs",async(req,res)=>{
-    const email = req.query.email ? req.query.email : "baba1938baba@gmail.com";
-    const response = await fetch(URL);
-    const json = response.json();
-    console.log(json);
-    const found_user = await User.find({email:email});
-    res.render("graphs",{worker:found_user,clientType:temp.role,currentUser:temp});
-  });
-
-  app.get("/superuser/worker/remove/:id",function(req,res){
-
-    User.deleteOne({ _id: req.params.id }).then(result => {
-    console.log(result);
-    });
+app.get("/home", function (req, res) {
+  if (temp.role === "worker") {
+    res.redirect("/worker");
+  }
+  else if (temp.role === "admin") {
     res.redirect("/admin");
-  });
+  }
+  else
+    res.redirect('/super');
+});
 
-  app.get("/superuser/admin/remove/:id",function(req,res){
+app.get("/super", async (req, res) => {
+  if (temp.role === "super") {
+    const found_user = await User.find({});
+    res.render("super", { currentUser: temp, clientType: temp.role, admins: found_user, workers: found_user });
+  }
+  else res.redirect("/");
+});
 
-    User.deleteOne({ _id: req.params.id }).then(result => {
+app.get("/admin", async (req, res) => {
+  if (temp.role === "admin") {
+    const found_user = await User.find({});
+    res.render("admin", { currentUser: temp, clientType: temp.role, admins: found_user, workers: found_user });
+  }
+  else res.redirect("/");
+});
+
+app.get("/graphs", async (req, res) => {
+  const email = req.query.email ? req.query.email : "baba1938baba@gmail.com";
+  const response = await fetch(URL);
+  const json = response.json();
+  console.log(json);
+  const found_user = await User.find({ email: email });
+  res.render("graphs", { worker: found_user, clientType: temp.role, currentUser: temp });
+});
+
+app.get("/superuser/worker/remove/:id", function (req, res) {
+
+  User.deleteOne({ _id: req.params.id }).then(result => {
     console.log(result);
-    });
-    res.redirect("/super");
   });
+  res.redirect("/admin");
+});
 
+app.get("/superuser/admin/remove/:id", function (req, res) {
 
-  app.get('/auth/logout', function (req, res) {
-   // req.logout();
-    res.redirect("/");
+  User.deleteOne({ _id: req.params.id }).then(result => {
+    console.log(result);
   });
+  res.redirect("/super");
+});
 
 
-  app.post("/superuser/admin/add",function(req,res){
+app.get('/auth/logout', function (req, res) {
+  // req.logout();
+  res.redirect("/");
+});
 
- //console.log(req.body);
-  var teacher_name=req.body.main.name;
-  var teacher_email=req.body.main.email;
 
-  const user=new User({
-    name:teacher_name,
-    email:teacher_email,
-    role:"admin"
+app.post("/superuser/admin/add", function (req, res) {
+
+  //console.log(req.body);
+  var teacher_name = req.body.main.name;
+  var teacher_email = req.body.main.email;
+
+  const user = new User({
+    name: teacher_name,
+    email: teacher_email,
+    role: "admin"
   });
 
   user.save();
@@ -207,22 +220,22 @@ app.get("/super",async(req,res)=>{
 
 });
 
-app.post("/superuser/worker/add",function(req,res){
+app.post("/superuser/worker/add", function (req, res) {
 
-// console.log(req.body);
-  var teacher_name=req.body.mains.name;
-  var teacher_email=req.body.mains.email;
+  // console.log(req.body);
+  var teacher_name = req.body.mains.name;
+  var teacher_email = req.body.mains.email;
 
-  const user=new User({
-    name:teacher_name,
-    email:teacher_email,
-    role:"worker"
+  const user = new User({
+    name: teacher_name,
+    email: teacher_email,
+    role: "worker"
   });
 
   user.save();
   res.redirect("/admin");
 });
 
-app.listen(3000, function() {
+app.listen(3000, function () {
   console.log("Server started on port 3000");
 });
