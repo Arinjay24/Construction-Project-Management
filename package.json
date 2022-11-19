@@ -20,6 +20,7 @@
     "passport": "^0.6.0",
     "passport-google-oauth20": "^2.0.0",
     "path": "^0.12.7",
+    "progressbar.js": "^1.1.0",
     "serialport": "^10.5.0"
   }
 }

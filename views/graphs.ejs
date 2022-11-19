@@ -13,7 +13,8 @@
         </div>
         <div class="card-content">
           <span class="card-title activator grey-text text-darken-4">
-            <%=worker[0].name%><i class="material-icons right">more_vert</i>
+            <%=worker[0].name%>
+                <i class="material-icons right">more_vert</i>
           </span>
         </div>
         <div class="card-reveal">
@@ -25,6 +26,23 @@
       </div>
     </div>
     <div class="graph-css">
+
+      <!-- Creating a ui-widgets classes that 
+            store other useful classes like 
+            ui-values and ui-labels -->
+      <div class="container">
+        <div class="ui-widgets">
+          <div class="ui-values"><%=dataPort%></div>
+        </div>
+        <h2>BPM</h2>
+      </div>
+      <div class="graph-heart card">
+        <h4 class="theme-heading text-center mb-5">Heart Rate</h4>
+        <img src="images/heartRate.png" alt="">
+      </div>
+    </div>
+
+    <div class="graph-css">
       <div class="graph-location card">
         <h4 class="theme-heading text-center mb-5">Location Tracker</h4>
         <img src="images/locationgraph.png" alt="">
@@ -35,6 +53,60 @@
       </div>
     </div>
 
+    <div class="graph-css">
+      <div class="graph-location card">
+        <h4 class="theme-heading text-center mb-5">Location Tracker</h4>
+        <img src="images/locationgraph.png" alt="">
+      </div>
+      <div class="graph-heart card">
+        <h4 class="theme-heading text-center mb-5">Heart Rate</h4>
+        <img src="images/heartRate.png" alt="">
+      </div>
+    </div>
+
+    <div class="graph-css">
+      <div class="graph-location card">
+        <h4 class="theme-heading text-center mb-5">Location Tracker</h4>
+        <img src="images/locationgraph.png" alt="">
+      </div>
+      <div class="graph-heart card">
+        <h4 class="theme-heading text-center mb-5">Heart Rate</h4>
+        <img src="images/heartRate.png" alt="">
+      </div>
+    </div>
+
+    <div class="graph-css">
+      <div class="graph-location card">
+        <h4 class="theme-heading text-center mb-5">Location Tracker</h4>
+        <img src="images/locationgraph.png" alt="">
+      </div>
+      <div class="graph-heart card">
+        <h4 class="theme-heading text-center mb-5">Heart Rate</h4>
+        <img src="images/heartRate.png" alt="">
+      </div>
+    </div>
+
+    <div class="graph-css">
+      <div class="graph-location card">
+        <h4 class="theme-heading text-center mb-5">Location Tracker</h4>
+        <img src="images/locationgraph.png" alt="">
+      </div>
+      <div class="graph-heart card">
+        <h4 class="theme-heading text-center mb-5">Heart Rate</h4>
+        <img src="images/heartRate.png" alt="">
+      </div>
+    </div>
+
+    <div class="graph-css">
+      <div class="graph-location card">
+        <h4 class="theme-heading text-center mb-5">Location Tracker</h4>
+        <img src="images/locationgraph.png" alt="">
+      </div>
+      <div class="graph-heart card">
+        <h4 class="theme-heading text-center mb-5">Heart Rate</h4>
+        <img src="images/heartRate.png" alt="">
+      </div>
+    </div>
 
     <script>
       var teacherNav = document.querySelectorAll('#teacher-nav');
@@ -43,7 +115,6 @@
         const navLinks = `<a id="dshbrd" href="http://localhost:3000/admin" 
         ><i class="fas fa-desktop"></i><span>Dashboard</span></a
       >
-      <a href="#attendance-detail"><i class="far fa-check-circle"></i><span>Attendance</span></a>
       <a class="hme" href="#"><i class="fas fa-info-circle"></i><span>Home</span></a>
       <a href="#"><i class="fas fa-sliders-h"></i><span>Settings</span></a>`;
         teacherNav.innerHTML = navLinks;
@@ -82,7 +153,6 @@
         for (var i = 0; i < 4; i++) y += x[i] + ' ';
         targetAttend.querySelector('.a-date').innerHTML += `<p>${y}</p>`;
       });
-
     </script>
 
     <%- include('partials/footer'); -%>

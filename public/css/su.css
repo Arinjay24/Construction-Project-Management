@@ -224,6 +224,8 @@ input:focus {
   justify-content: space-between;
 }
 
+
+
 .graph-heart {
   margin:5px;
   width: 50%;
@@ -234,7 +236,68 @@ input:focus {
   width: 50%;
 }
 
+h1{
+  text-align: center;
+}
+h2{
+  font-family: fantasy;
+}
+/* Create a container using css properties */
+.container {
+  text-align: center;
+}
+/* Apply css properties to ui-widgets class */
 
+
+.ui-widgets {
+  position: relative;
+  display: inline-block;
+  width: 15rem;
+  height: 15rem;
+  border-radius: 9rem;
+  margin:1.5rem;
+  border: 1.2rem solid palegreen;
+  box-shadow: inset 0 0 7px grey;
+  border-left-color: palegreen;
+  border-top-color:chartreuse ;
+  border-right-color: #3cb371;
+  border-bottom-color: white ;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+/* Apply css properties to the second
+  child of ui-widgets class */
+.ui-widgets:nth-child(2) {
+  border-top-color:chartreuse ;
+  border-right-color: white;
+  border-left-color: palegreen;
+  border-bottom-color: white;
+}
+
+/* Apply css properties to ui-widgets
+ class and ui-values class */
+.ui-widgets .ui-values {
+  top: 40px;
+  position: absolute;
+  left: 1px;
+  right: 0;
+  font-weight: 700;
+  font-size: 4.0rem;
+  
+}
+
+/*  Apply css properties to ui-widgets 
+class and ui-labels class */
+.ui-widgets .ui-labels {
+  left: 0;
+  bottom: -16px;
+  text-shadow: 0 0 4px grey;
+  color:black;
+  position: absolute;
+  width: 50%;
+  font-size: 16px;
+}
 
 #message-form {
   position: absolute;

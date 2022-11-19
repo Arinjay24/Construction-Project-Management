@@ -18,19 +18,10 @@ const URL = "https://api.thingspeak.com/channels/1711681/feeds.json?api_key=MF7F
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 const json = (...args) => import('json');
 const app = express();
-
 var Rol;
 let gfs;
 
-// SERIAL MONITOR CODE
 
-const port = new SerialPort({ path: 'COM4', baudRate: 9600 }, function (err) {
-  if (err) {
-    return console.log('Error: ', err.message)
-  }
-});
-const parser = port. pipe(new ReadlineParser({ delimiter: '\r\n' }));
-parser.on('data', console.log)
 
 
 
@@ -96,6 +87,23 @@ const UserSchema = new mongoose.Schema({
   },
 });
 
+const SerialSchema = new mongoose.Schema({
+  BPM: {
+    type: Number,
+    required: true
+  },
+  time: {
+    type: String,
+    required: true
+  },
+  Latitude: {
+    type: String,
+  },
+  Longitude: {
+    type: String,
+  },
+});
+//const SerialPortData = mongoose.model("User", SerialSchema);
 const User = mongoose.model("User", UserSchema);
 
 var temp = new User({
@@ -103,6 +111,21 @@ var temp = new User({
   email: "",
   role: ""
 });
+
+// SERIAL MONITOR CODE
+const serialDataArr=[];
+const port = new SerialPort({ path: 'COM4', baudRate: 9600 }, function (err) {
+  if (err) {
+    return console.log('Error: ', err.message)
+  }
+});
+const parser = port. pipe(new ReadlineParser({ delimiter: '\r\n' }));
+parser.on('data', function(data){
+  console.log(data);
+  serialDataArr.push(data);
+});
+
+
 
 app.get("/", function (req, res) {
   currentUser = null;
@@ -175,9 +198,9 @@ app.get("/graphs", async (req, res) => {
   const email = req.query.email ? req.query.email : "baba1938baba@gmail.com";
   const response = await fetch(URL);
   const json = response.json();
-  console.log(json);
+ // console.log(json);
   const found_user = await User.find({ email: email });
-  res.render("graphs", { worker: found_user, clientType: temp.role, currentUser: temp });
+  res.render("graphs", { worker: found_user, clientType: temp.role, currentUser: temp,dataPort: serialDataArr[serialDataArr.length -2]});
 });
 
 app.get("/superuser/worker/remove/:id", function (req, res) {
